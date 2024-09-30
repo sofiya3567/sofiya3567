@@ -38,7 +38,6 @@ void loop()
   }
   Serial.println( k);
    Serial.println( sing);
- ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
 }
 
 void pinOut (int pin,int val){
