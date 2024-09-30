@@ -1,64 +1,47 @@
-#define UP_BT 12
-#define DOWN_BT 11
-
-const int maks=7;
-const int min=3;
-bool up_button, down_button;
-bool up_tmp,down_tmp, st=1;
-int k=min;
-
+// C++ code
+//
+unsigned long timeTmp, time;
+int k=13;
+bool out=1;
+byte c=0;
+int sing=1;
+int myDelay=50; //frequrency
 
 void setup()
 {
-  for (int i=min;i<=maks;i++)
- pinMode(i,OUTPUT);
- 
-  pinMode(UP_BT,INPUT);
-  pinMode(DOWN_BT,INPUT);
+  for (int i=9;i<=13;i++)
+  pinMode(i, OUTPUT);
+
+  digitalWrite(12, LOW);
+  digitalWrite(10, LOW);
   Serial.begin(19200);
 }
 
-  void loop()
+void loop()
 {
- up_button=digitalRead(UP_BT);
- down_button=digitalRead(DOWN_BT);
- if ((up_button==1) && (up_tmp==0))
- {
-     digitalWrite(k,st);
-       up_tmp=1;
-       k++;
-       
- }
-  Serial.println(k);
+   pinOut(k,out);
+  time=millis();
+  if (time-timeTmp>myDelay){
+     timeTmp=time;
    
-    if ((up_button==0) && (up_tmp==1))
- {
-      up_tmp=0;
-         
- }
+     c++;
+    out=!out;
+  }
+  if (c==2) {
+    k=k-2*sing;
+    c=0;
+  }
+  if ((k==7) ||(k==15)){
    
-     if ((down_button==1) && (down_tmp==0))
- {
-     digitalWrite(k,!st);
-       down_tmp=1;
-       k--;
-       
- }
-  Serial.println(k);
-   
-    if ((down_button==0) && (down_tmp==1))
- {
-      down_tmp=0;
-         
- }
-   
-   
- if (k>maks)
- {    k=min;
-      st=!st;
- }
-     if (k<0)
- {    k=maks;
-      st=!st;
- }
+    sing=-sing;
+  }
+  Serial.println( k);
+   Serial.println( sing);
+ 
+}
+
+void pinOut (int pin,int val){
+  digitalWrite(pin, val);
+ 
+ 
 }
