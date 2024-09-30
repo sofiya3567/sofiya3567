@@ -1,1 +1,41 @@
-
+#define button_pin 12 
+bool button; 
+bool tmp = 0, 
+st = 1;
+int k = 3;
+const int maks = 7;
+void setup()
+{   // Налаштування пінів для світлодіодів  
+for (int i = 3; i <= maks; i++) 
+{     pinMode(i, OUTPUT);  
+digitalWrite(i, LOW);  
+// Вимкнути всі світлодіоди на початку  
+}  
+// Налаштування кнопки 
+pinMode(button_pin, INPUT_PULLUP);  
+// Використовуємо внутрішній підтягувальний резистор   
+Serial.begin(19200); 
+// Налаштування серійного монітору }
+void loop() { 
+button = !digitalRead(button_pin); 
+// Зчитуємо стан кнопки (інверсія через PULLUP) 
+if ((button == 1) && (tmp == 0)) 
+{    
+digitalWrite(k, st);
+// Вмикаємо або вимикаємо світлодіод   
+tmp = 1;     k++;  
+// Переходимо до наступного світлодіода 
+}     Serial.println(k);  
+// Виводимо стан на серійний монітор    
+if ((button == 0) && (tmp == 1))
+{   
+tmp = 0; 
+// Готові до наступного натискання  
+}      
+if (k > maks) { 
+k = 3; 
+// Повертаємося до першого світлодіода  
+st = !st; 
+// Змінюємо стан (вмикання/вимикання)  
+}
+}
